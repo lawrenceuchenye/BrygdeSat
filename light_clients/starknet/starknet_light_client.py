@@ -9,18 +9,17 @@ client = FullNodeClient(node_url=os.getenv("INFURA_STARKNET_RPC"))
 
 async def get_starknet_proof():
     # The address you want to prove (must be a Starknet address)
-    target_address ="0x3757149db508d2385e39329d3645aa2a1672ab8915b4dc6bf85d30d368629a8"
+    target_tx_hash ="0x11d1eaeb358c04a4c5f82ff60249eb1e923b220400b8dda8bd34442057ec073"
     
     # Starknet uses 'get_proof' which returns the state commitment
     # instead of the Ethereum-style eth_getProof
-    proof = await client.get_storage_proof(
-        contract_addresses=[target_address],
-        contracts_storage_keys=[], # Storage keys if needed
-        block_number="latest"
-    )
-
-    contracts_root = proof.global_roots.contracts_tree_root
-
-    print(f"Starknet Proof: {1} Merkle Root:{hex(contracts_root)}")
+    # Fetch the transaction detailstx_details
+    tx_details = await client.get_transaction(target_tx_hash)
+    tx_receipt = await client.get_transaction_receipt(target_tx_hash)
+    
+    # Get the signature and block numbersignature
+    signature = tx_details.signature  # List of field elementsblock_number
+    block_number = tx_receipt.block_number
+    print(f"Starknet Tx Hash Sign: {signature} Block number:{block_number}")
 
 asyncio.run(get_starknet_proof())
