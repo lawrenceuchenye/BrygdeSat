@@ -112,7 +112,7 @@ class StarknetSPV:
           # Create input JSON
           input_json_path = os.path.join(current_dir, "input.json")
           with open(input_json_path, "w") as f:
-              json.dump([hex(self.block.parent_hash), hex(self.block.new_root)], f)
+            json.dump({ "program_input":[hex(self.block.parent_hash), hex(self.block.new_root)]}, f)
 
           subprocess.run([
            "cairo-run",
