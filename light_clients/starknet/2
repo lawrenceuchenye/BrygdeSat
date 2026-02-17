@@ -1,0 +1,14 @@
+import asyncio
+from dotenv import load_dotenv
+import os
+from StarknetSPV import StarknetSPV
+
+load_dotenv()
+
+apikey=os.getenv("INFURA_STARKNET_RPC")
+
+spv=StarknetSPV(StarknetNode_APIKEY=apikey)
+asyncio.run(spv.pullData())
+
+print(spv.block)
+
